@@ -141,13 +141,29 @@ function forecastRecommendation(dayIndex, locLabel, min, max, rain, wind){
   if(!parts.length) parts.push(dressedActivity?"Tempo aparentemente cómodo para a actividade. Aínda así, lembrade hidratarvos e coidar a indumentaria e os instrumentos.":"Tempo aparentemente cómodo para pasear e facer as visitas previstas.");
   return parts.slice(0,2).join(" ");
 }
+
+function eclipseBlockForDay(dayIndex, cloudCover=null){
+  const d=itinerary[dayIndex];
+  if(!d || d.date!=="2026-08-12") return "";
+
+  let conditions="A previsión de nubosidade aínda non está dispoñible. Consulta a meteoroloxía ese mesmo día.";
+  if(Number.isFinite(cloudCover)){
+    if(cloudCover<=25) conditions=`Boas condicións previstas: pouca nubosidade (${Math.round(cloudCover)}%).`;
+    else if(cloudCover<=55) conditions=`Condicións variables: haberá algunhas nubes (${Math.round(cloudCover)}%), pero poden abrirse claros.`;
+    else if(cloudCover<=80) conditions=`Observación difícil: prevese bastante nubosidade (${Math.round(cloudCover)}%). Haberá que buscar claros cara ao oeste.`;
+    else conditions=`Condicións pouco favorables: ceo moi nubrado (${Math.round(cloudCover)}%), que pode impedir ver a eclipse.`;
+  }
+
+  return `<div class="eclipse-alert"><h3>🌒 Hoxe hai unha eclipse solar!</h3><p>Ao serán poderá verse unha eclipse parcial desde Francia. Procurade un lugar aberto con boa visibilidade cara ao oeste.</p><p><b>Condicións para a eclipse:</b> ${conditions}</p><p><b>Seguridade:</b> non miredes directamente ao Sol. Empregade unicamente lentes homologadas para observar eclipses; as gafas de sol normais non serven.</p></div>`;
+}
+
 async function weatherForecastBlockForDay(dayIndex){
   const d=itinerary[dayIndex], loc=weatherLocationForDay(dayIndex);
   try{
-    const key=`meteo-forecast-v3-${loc.label}-${d.date}-${new Date().toISOString().slice(0,10)}`;
+    const key=`meteo-forecast-v5-${loc.label}-${d.date}-${new Date().toISOString().slice(0,10)}`;
     const cached=localStorage.getItem(key);
     if(cached) return JSON.parse(cached).html;
-    const url=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lng}&daily=weather_code,precipitation_probability_max,temperature_2m_max,temperature_2m_min,wind_speed_10m_max&timezone=auto&start_date=${d.date}&end_date=${d.date}`;
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lng}&daily=weather_code,precipitation_probability_max,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,cloud_cover_mean&timezone=auto&start_date=${d.date}&end_date=${d.date}`;
     const r=await fetch(url);
     if(!r.ok) throw new Error("meteo");
     const w=await r.json(), daily=w.daily||{};
@@ -157,12 +173,14 @@ async function weatherForecastBlockForDay(dayIndex){
     const rain=Math.round(Number((daily.precipitation_probability_max||[0])[0]||0));
     const wind=Math.round(Number((daily.wind_speed_10m_max||[0])[0]||0));
     const desc=weatherCodeText(Number(daily.weather_code[0]));
+    const cloud=Number((daily.cloud_cover_mean||[])[0]);
     const rec=forecastRecommendation(dayIndex,loc.label,min,max,rain,wind);
-    const html=`<div class="weather meteo-card"><div><h3>Meteoroloxía prevista</h3><p class="small">${loc.label} · ${d.day}</p></div><div class="meteo-main"><b>${min}–${max} ºC</b><span>${desc}</span></div><div class="meteo-grid"><span>🌧 ${rain}%</span><span>💨 ${wind} km/h</span></div><p><b>Recomendación:</b> ${rec}</p></div>`;
+    const eclipse=eclipseBlockForDay(dayIndex,Number.isFinite(cloud)?cloud:null);
+    const html=`<div class="weather meteo-card"><div><h3>Meteoroloxía prevista</h3><p class="small">${loc.label} · ${d.day}</p></div><div class="meteo-main"><b>${min}–${max} ºC</b><span>${desc}</span></div><div class="meteo-grid"><span>🌧 ${rain}%</span><span>💨 ${wind} km/h</span>${d.date==="2026-08-12"&&Number.isFinite(cloud)?`<span>☁️ ${Math.round(cloud)}%</span>`:""}</div><p><b>Recomendación:</b> ${rec}</p>${eclipse}</div>`;
     localStorage.setItem(key,JSON.stringify({html,time:Date.now()}));
     return html;
   }catch(e){
-    return `<div class="weather meteo-card"><h3>Meteoroloxía prevista</h3><p class="small">${loc.label} · ${d.day}</p><p>A previsión concreta para este día aínda non está dispoñible.</p><p><b>Recomendación xeral:</b> levade auga, chuvasqueiro lixeiro e calzado cómodo. Se hai actuación ou desfile, protexede a indumentaria e os instrumentos durante as esperas.</p></div>`;
+    return `<div class="weather meteo-card"><h3>Meteoroloxía prevista</h3><p class="small">${loc.label} · ${d.day}</p><p>A previsión concreta para este día aínda non está dispoñible.</p><p><b>Recomendación xeral:</b> levade auga, chuvasqueiro lixeiro e calzado cómodo. Se hai actuación ou desfile, protexede a indumentaria e os instrumentos durante as esperas.</p>${eclipseBlockForDay(dayIndex)}</div>`;
   }
 }
 
@@ -170,10 +188,10 @@ async function weatherBlockForDay(dayIndex){
  const d=itinerary[dayIndex];
  const loc=weatherLocationForDay(dayIndex);
  try{
-   const key=`meteo-v3-${loc.label}-${new Date().toISOString().slice(0,13)}`;
+   const key=`meteo-v5-${loc.label}-${new Date().toISOString().slice(0,13)}`;
    const cached=localStorage.getItem(key);
    if(cached) return JSON.parse(cached).html;
-   const url=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lng}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m&daily=precipitation_probability_max,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=1`;
+   const url=`https://api.open-meteo.com/v1/forecast?latitude=${loc.lat}&longitude=${loc.lng}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,cloud_cover&daily=precipitation_probability_max,temperature_2m_max,temperature_2m_min,cloud_cover_mean&timezone=auto&forecast_days=1`;
    const r=await fetch(url);
    if(!r.ok) throw new Error('meteo');
    const w=await r.json();
@@ -186,12 +204,14 @@ async function weatherBlockForDay(dayIndex){
    const rain=Math.round(Number((daily.precipitation_probability_max||[0])[0]||0));
    const min=Math.round(Number((daily.temperature_2m_min||[temp])[0]));
    const max=Math.round(Number((daily.temperature_2m_max||[temp])[0]));
+   const cloud=Number.isFinite(Number(c.cloud_cover))?Number(c.cloud_cover):Number((daily.cloud_cover_mean||[])[0]);
    const rec=forecastRecommendation(dayIndex,loc.label,min,max,rain,wind);
-   const html=`<div class="weather meteo-card"><div><h3>Meteoroloxía</h3><p class="small">${loc.label}</p></div><div class="meteo-main"><b>${temp} ºC</b><span>${desc}</span></div><div class="meteo-grid"><span>🌡 ${min}º / ${max}º</span><span>🌧 ${rain}%</span><span>💨 ${wind} km/h</span></div><p><b>Recomendación:</b> ${rec}</p></div>`;
+   const eclipse=eclipseBlockForDay(dayIndex,Number.isFinite(cloud)?cloud:null);
+   const html=`<div class="weather meteo-card"><div><h3>Meteoroloxía</h3><p class="small">${loc.label}</p></div><div class="meteo-main"><b>${temp} ºC</b><span>${desc}</span></div><div class="meteo-grid"><span>🌡 ${min}º / ${max}º</span><span>🌧 ${rain}%</span><span>💨 ${wind} km/h</span>${d.date==="2026-08-12"&&Number.isFinite(cloud)?`<span>☁️ ${Math.round(cloud)}%</span>`:""}</div><p><b>Recomendación:</b> ${rec}</p>${eclipse}</div>`;
    localStorage.setItem(key,JSON.stringify({html,time:Date.now()}));
    return html;
  }catch(e){
-   return `<div class="weather meteo-card"><h3>Meteoroloxía</h3><p>Non foi posible actualizar a meteoroloxía agora.</p><p><b>Recomendación xeral:</b> levade auga e un chuvasqueiro lixeiro. Se hai actuación ou desfile, protexede a indumentaria e os instrumentos.</p></div>`;
+   return `<div class="weather meteo-card"><h3>Meteoroloxía</h3><p>Non foi posible actualizar a meteoroloxía agora.</p><p><b>Recomendación xeral:</b> levade auga e un chuvasqueiro lixeiro. Se hai actuación ou desfile, protexede a indumentaria e os instrumentos.</p>${eclipseBlockForDay(dayIndex)}</div>`;
  }
 }
 async function weatherBlock(){return weatherBlockForDay(current())}
@@ -366,6 +386,62 @@ ${n.notes||'(sen notas)'}
 
 
 
+
+
+
+// Diario persoal de cada día
+function diaryKey(dayId){return `sondaqui-diary-${dayId}`}
+function getDiary(dayId){
+  try{return JSON.parse(localStorage.getItem(diaryKey(dayId))||'{"notes":"","images":[]}')}
+  catch(e){return {notes:'',images:[]}}
+}
+function normalizeDiaryImages(d){
+  d.images=(d.images||[]).map(img=>typeof img==='string'?{full:img,thumb:img,name:'foto'}:img);
+  return d;
+}
+function saveDiary(dayId,d){normalizeDiaryImages(d);localStorage.setItem(diaryKey(dayId),JSON.stringify(d))}
+function diaryHasContent(dayId){const d=normalizeDiaryImages(getDiary(dayId));return !!((d.notes||'').trim()||(d.images||[]).length)}
+function diaryCardHTML(dayIndex){
+  const d=itinerary[dayIndex], active=diaryHasContent(d.id);
+  return `<div class="card diary-card ${active?'has-content':''}">
+    <div class="diary-card-head"><div><h3>📔 O meu diario</h3><p class="small">Notas e fotografías privadas deste día.</p></div>
+    <button class="detailbtn diary-open-btn" onclick="showDiary(${dayIndex})">${active?'Abrir diario ✓':'Abrir diario'}</button></div>
+  </div>`;
+}
+function diaryImageGridHTML(dayId,d){
+  d=normalizeDiaryImages(d); const imgs=d.images||[];
+  return `<div class="gallery-head"><b>📷 Fotos (${imgs.length})</b><label class="add-photo">+<input id="diaryImageInput" type="file" accept="image/*" multiple></label></div>
+  <div class="image-preview">${imgs.map((img,i)=>`<button class="preview-item" onclick="openDiaryPhotoViewer('${dayId}',${i})"><img src="${img.thumb||img.full}" alt=""></button>`).join('')}</div>`;
+}
+function showDiary(dayIndex){
+  const day=itinerary[dayIndex], d=normalizeDiaryImages(getDiary(day.id));
+  window.__lastDiaryDay=dayIndex; returnScrollY=window.scrollY;
+  modalContent.innerHTML=`<h2>📔 O meu diario</h2><h3>${day.day}</h3><p class="small">${(day.dayPlaces||[day.mainPlace]).join(' · ')}</p>
+    <label class="note-label">📝 Notas do día</label>
+    <textarea id="diaryNotesInput" class="notebook-input diary-input" placeholder="Escribe aquí as túas impresións do día...">${d.notes||''}</textarea>
+    <label class="note-label">📷 Fotos</label>${diaryImageGridHTML(day.id,d)}
+    <div class="notebook-actions"><button class="detailbtn" onclick="exportDiary()">📤 Exportar o meu diario</button></div>
+    <p class="small">🔒 O diario é privado: gárdase unicamente neste dispositivo. As fotos redúcense automaticamente.</p>`;
+  modal.classList.add('notebook-open');modal.classList.remove('hidden');
+  setTimeout(()=>{const mc=document.querySelector('.modal-card');if(mc)mc.scrollTop=0},0);
+  diaryNotesInput.oninput=()=>{const cur=normalizeDiaryImages(getDiary(day.id));cur.notes=diaryNotesInput.value;saveDiary(day.id,cur)};
+  diaryImageInput.onchange=async ev=>{const cur=normalizeDiaryImages(getDiary(day.id));for(const file of ev.target.files){cur.images.push(await resizeImageFile(file))}saveDiary(day.id,cur);showDiary(dayIndex)};
+}
+function openDiaryPhotoViewer(dayId,index){
+  const d=normalizeDiaryImages(getDiary(dayId)),img=d.images[index];if(!img)return;
+  modalContent.innerHTML=`<h2>📷 Foto ${index+1} de ${d.images.length}</h2><div class="photo-viewer"><img src="${img.full}" alt=""></div>
+  <div class="notebook-actions">${index>0?`<button class="detailbtn" onclick="openDiaryPhotoViewer('${dayId}',${index-1})">← Anterior</button>`:''}${index<d.images.length-1?`<button class="detailbtn" onclick="openDiaryPhotoViewer('${dayId}',${index+1})">Seguinte →</button>`:''}<button class="detailbtn danger" onclick="deleteDiaryPhoto('${dayId}',${index})">Eliminar</button><button class="detailbtn" onclick="showDiary(window.__lastDiaryDay)">Voltar ao diario</button></div>`;
+  modal.classList.add('notebook-open');modal.classList.remove('hidden');
+}
+function deleteDiaryPhoto(dayId,index){const d=normalizeDiaryImages(getDiary(dayId));d.images.splice(index,1);saveDiary(dayId,d);showDiary(window.__lastDiaryDay)}
+function escapeDiaryHTML(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function exportDiary(){
+  const entries=itinerary.map(day=>({day,data:normalizeDiaryImages(getDiary(day.id))})).filter(x=>(x.data.notes||'').trim()||x.data.images.length);
+  if(!entries.length){alert('O diario aínda está baleiro.');return}
+  const pages=entries.map(({day,data})=>`<section class="day"><h2>${escapeDiaryHTML(day.day)}</h2><p><b>📍 ${(day.dayPlaces||[day.mainPlace]).map(escapeDiaryHTML).join(' · ')}</b></p>${data.notes?`<div class="notes">${escapeDiaryHTML(data.notes).replace(/\n/g,'<br>')}</div>`:'<p><i>Sen notas.</i></p>'}<div class="photos">${data.images.map(img=>`<img src="${img.full}" alt="">`).join('')}</div></section>`).join('');
+  const w=window.open('','_blank');if(!w){alert('Permite as ventás emerxentes para exportar o diario.');return}
+  w.document.write(`<!doctype html><html lang="gl"><head><meta charset="utf-8"><title>O meu diario · Son d'Aquí Francia 2026</title><style>@page{size:A4;margin:16mm}body{font-family:Arial,sans-serif;color:#243342}header{text-align:center;padding:35mm 0 20mm}h1{font-size:34px;margin:0}h2{color:#335069;border-bottom:2px solid #d8a03d;padding-bottom:8px}.day{break-before:page}.day:first-of-type{break-before:auto}.notes{white-space:normal;line-height:1.55;margin:18px 0}.photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}.photos img{width:100%;max-height:110mm;object-fit:contain;border-radius:8px}small{color:#666}</style></head><body><header><h1>Son d'Aquí</h1><h2>Francia 2026</h2><p>O meu diario de viaxe</p><p>Nome: __________________________</p></header>${pages}<script>window.onload=()=>setTimeout(()=>window.print(),500)<\/script></body></html>`);w.document.close();
+}
 
 function renderPlanEvent(dayIndex,e,idx){
   const isShow = e[1] === '🎤' && /Actuación/i.test(e[2]);
@@ -552,6 +628,7 @@ function dayPageHTML(i){
     ${daySectionsHTML(d)}
     <div class="tags">${d.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
     <div id="dayWeatherBox-${i}" class="day-weather-holder"></div>
+    ${diaryCardHTML(i)}
   </section>`;
 }
 
@@ -795,7 +872,69 @@ function newCurio(){curio.textContent=curiosities[Math.floor(Math.random()*curio
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id==id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.s==id));scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>show(b.dataset.s));enter.onclick=()=>{splash.classList.add('hidden');app.classList.remove('hidden');show('today')};modal.onclick=e=>{if(e.target===modal)modal.classList.add('hidden')};
 renderToday();renderRoute();renderItinerary();renderPlaces();renderMore();
-if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if ('serviceWorker' in navigator) {
+  let refreshing = false;
+  let updateAccepted = false;
+
+  function showUpdateBanner(registration) {
+    if (document.getElementById('pwaUpdateBanner')) return;
+    const banner = document.createElement('div');
+    banner.id = 'pwaUpdateBanner';
+    banner.className = 'pwa-update-banner';
+    banner.setAttribute('role', 'status');
+    banner.innerHTML = `
+      <div class="pwa-update-text">
+        <strong>🆕 Hai unha nova versión dispoñible</strong>
+        <span>Actualiza para ter a última información da viaxe.</span>
+      </div>
+      <button type="button" id="pwaUpdateButton">Actualizar á última versión dispoñible</button>`;
+    document.body.appendChild(banner);
+
+    document.getElementById('pwaUpdateButton')?.addEventListener('click', () => {
+      const waiting = registration.waiting;
+      if (!waiting) {
+        registration.update();
+        return;
+      }
+      updateAccepted = true;
+      waiting.postMessage({ type: 'SKIP_WAITING' });
+    });
+  }
+
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js');
+
+      if (registration.waiting && navigator.serviceWorker.controller) {
+        showUpdateBanner(registration);
+      }
+
+      registration.addEventListener('updatefound', () => {
+        const worker = registration.installing;
+        if (!worker) return;
+        worker.addEventListener('statechange', () => {
+          if (worker.state === 'installed' && navigator.serviceWorker.controller) {
+            showUpdateBanner(registration);
+          }
+        });
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') registration.update().catch(() => {});
+      });
+
+      setInterval(() => registration.update().catch(() => {}), 60 * 60 * 1000);
+    } catch (error) {
+      console.warn('Non se puido rexistrar o service worker:', error);
+    }
+  });
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshing || !updateAccepted) return;
+    refreshing = true;
+    window.location.reload();
+  });
+}
 
 weatherBlock().then(html=>{const el=document.getElementById('weatherBox'); if(el) el.innerHTML=html;});
 closeModal.onclick = () => {

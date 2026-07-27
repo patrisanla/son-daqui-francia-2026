@@ -1,4 +1,4 @@
-const CACHE = 'son-daqui-francia-2026-v1-2-final-countdown-v4';
+const CACHE = 'son-daqui-francia-2026-v1-4-diary-eclipse-v3';
 const ASSETS = [
   "./",
   "./index.html",
@@ -39,8 +39,14 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE)
       .then(cache => cache.addAll(ASSETS))
-      .then(() => self.skipWaiting())
   );
+});
+
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('activate', event => {

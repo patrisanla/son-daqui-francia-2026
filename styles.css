@@ -1699,3 +1699,52 @@ main{
   .map-hotspot{width:36px!important;height:36px!important}
   .map-tooltip{max-width:150px;font-size:.72rem;padding:6px 8px}
 }
+
+/* Aviso de actualización da PWA */
+.pwa-update-banner{
+  position:fixed;
+  left:12px;
+  right:12px;
+  bottom:86px;
+  z-index:10000;
+  max-width:640px;
+  margin:0 auto;
+  padding:14px;
+  border-radius:18px;
+  background:#fff;
+  box-shadow:0 8px 30px rgba(0,0,0,.24);
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+}
+.pwa-update-text{display:flex;flex-direction:column;gap:3px;line-height:1.25}
+.pwa-update-text span{font-size:.86rem;opacity:.75}
+.pwa-update-banner button{
+  border:0;
+  border-radius:12px;
+  padding:10px 12px;
+  font-weight:700;
+  cursor:pointer;
+  flex:0 0 auto;
+}
+@media (max-width:560px){
+  .pwa-update-banner{align-items:stretch;flex-direction:column}
+  .pwa-update-banner button{width:100%}
+}
+
+
+/* v1.4: diario persoal */
+.diary-card{margin-top:14px!important;border-left:5px solid var(--teal)!important}
+.diary-card.has-content{background:linear-gradient(135deg,#fffdf8,#eef7f4)!important}
+.diary-card-head{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.diary-card h3{margin:0 0 4px;color:var(--blue)}
+.diary-card p{margin:0}
+.diary-open-btn{flex:0 0 auto}
+.diary-input{min-height:220px}
+@media(max-width:480px){.diary-card-head{align-items:flex-start;flex-direction:column}.diary-open-btn{width:100%}}
+
+
+/* Aviso meteorolóxico do eclipse */
+.eclipse-alert{margin-top:16px;padding:15px 16px;border:2px solid rgba(123,82,166,.28);border-radius:16px;background:linear-gradient(135deg,rgba(244,238,255,.96),rgba(255,247,217,.96));box-shadow:0 6px 18px rgba(58,38,76,.08)}
+.eclipse-alert h3{margin:0 0 8px}.eclipse-alert p{margin:7px 0;line-height:1.45}

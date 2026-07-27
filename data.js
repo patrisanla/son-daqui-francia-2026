@@ -307,7 +307,7 @@ const itinerary = [
     "km": "105 km (3 + 98 + desprazamentos locais)",
     "sleep": "Hôtel F1 Laval · Changé",
     "sleepMap": "https://www.google.com/maps/search/?api=1&query=Hotel%20F1%20Laval%20Boulevard%20de%20Buffon%2053810%20Change",
-    "summary": "Turismo no Mont-Saint-Michel e traslado posterior a Laval.",
+    "summary": "Turismo no Mont-Saint-Michel e traslado posterior a Laval.\n\n🌒 <strong>Hoxe hai unha eclipse solar!</strong><br>Ao serán poderá observarse unha eclipse solar parcial. Empregade lentes homologadas e consultade a previsión de nubosidade máis abaixo.",
     "photo": "places/mont.jpg",
     "events": [
       [
