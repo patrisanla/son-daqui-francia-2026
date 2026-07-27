@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512">
+<rect width="512" height="512" rx="104" fill="#F8F2E8"/>
+<circle cx="256" cy="235" r="158" fill="#335069"/>
+<text x="256" y="238" text-anchor="middle" font-size="72" font-family="Arial" fill="white" font-weight="900">FR</text>
+<text x="256" y="314" text-anchor="middle" font-size="74" font-family="Arial" fill="white" font-weight="900">2026</text>
+</svg>

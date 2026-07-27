@@ -1,0 +1,23 @@
+{
+  "name": "Son d'aquí - Francia 2026",
+  "short_name": "Son d'aquí - Francia 26",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F8F2E8",
+  "theme_color": "#335069",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "./"
+}

@@ -1,0 +1,21 @@
+<!doctype html><html lang="gl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Francia 2026</title><link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">  <link rel="icon" href="assets/icon-192.png">
+</head><body>
+<section id="splash" class="splash"><div class="splash-card"><div class="logos solo-logo"><img src="assets/son-daqui.jpg"></div><p>Guía de viaxe</p><h1>Francia 2026</h1><h2>Son d'aquí · 7–16 de agosto</h2><div id="countdown" class="countdown"></div><button id="enter">Entrar na guía</button></div></section>
+<div id="app" class="hidden"><header id="appHeader" role="button" tabindex="0" aria-label="Volver á portada"><div><span>Francia 2026</span><h1>Son d'aquí</h1></div><img src="assets/son-daqui.jpg"></header>
+<main><section id="today" class="screen active"></section><section id="itinerary" class="screen"></section><section id="route" class="screen"><h2>Mapa</h2><div class="map map-clickable"><img src="assets/mapa-routerra.png" alt="Mapa da ruta">
+  <button class="map-hotspot" style="left:72.7%;top:84.4%" aria-label="Saint-Avaugourd-des-Landes" onclick="scrollToMapStep(0,'Saint-Avaugourd-des-Landes')"></button>
+  <button class="map-hotspot" style="left:71.8%;top:76.7%" aria-label="La Roche-sur-Yon" onclick="scrollToMapStep(1,'La Roche-sur-Yon')"></button>
+  <button class="map-hotspot" style="left:68.6%;top:85.2%" aria-label="Jard-sur-Mer" onclick="scrollToMapStep(1,'Jard-sur-Mer')"></button>
+  <button class="map-hotspot" style="left:26.9%;top:34.1%" aria-label="Beuzec-Cap-Sizun" onclick="scrollToMapStep(2,'Beuzec-Cap-Sizun')"></button>
+  <button class="map-hotspot" style="left:33.2%;top:36.3%" aria-label="Quimper" onclick="scrollToMapStep(3,'Quimper')"></button>
+  <button class="map-hotspot" style="left:70.4%;top:18.7%" aria-label="Pontorson / Mont-Saint-Michel" onclick="scrollToMapStep(4,'Pontorson / Mont-Saint-Michel')"></button>
+  <button class="map-hotspot" style="left:81.3%;top:33.2%" aria-label="Laval" onclick="scrollToMapStep(5,'Laval')"></button>
+  <button class="map-hotspot" style="left:86.1%;top:31.1%" aria-label="Évron" onclick="scrollToMapStep(6,'Évron')"></button>
+  <button class="map-hotspot" style="left:74.3%;top:9.7%" aria-label="Villedieu-les-Poêles" onclick="scrollToMapStep(7,'Villedieu-les-Poêles')"></button>
+  <button class="map-hotspot" style="left:69.9%;top:80.6%" aria-label="Saint-Avaugourd-des-Landes" onclick="scrollToMapStep(8,'Saint-Avaugourd-des-Landes')"></button>
+  <button class="map-hotspot" style="left:76.1%;top:94.7%" aria-label="Regreso" onclick="scrollToMapStep(9,'Regreso')"></button>
+</div><div id="steps"></div></section><section id="places" class="screen"></section><section id="more" class="screen"></section>
+<section id="dayDetail" class="screen"></section></main>
+<nav><button class="active" data-s="today">🏠<span>Hoxe</span></button><button data-s="itinerary">📅<span>Itinerario</span></button><button data-s="route">🗺️<span>Mapa</span></button><button data-s="places">📍<span>Lugares</span></button><button data-s="more">☰<span>Máis</span></button></nav></div>
+<div id="modal" class="modal hidden"><div class="modal-card"><button id="closeModal">×</button><div id="modalContent"></div></div></div>
+<script src="data.js"></script><script src="app.js"></script></body></html>
