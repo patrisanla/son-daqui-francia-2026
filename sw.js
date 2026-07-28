@@ -1,4 +1,4 @@
-const CACHE = 'son-daqui-francia-2026-v1-4-diary-eclipse-v3';
+const CACHE = 'son-daqui-francia-2026-v1-5-festivals';
 const ASSETS = [
   "./",
   "./index.html",
@@ -26,6 +26,9 @@ const ASSETS = [
   "./assets/places/saint.jpg",
   "./assets/places/villedieu.jpg",
   "./assets/festivals/prendre-air-evron.png",
+  "./assets/festivals/fete-des-bruyeres-2026.jpg",
+  "./assets/festivals/pontorson-2026.jpg",
+  "./assets/festivals/villedieu-les-poeles-2026.jpg",
   "./assets/festivals/la-roche-sur-yon-parade-2026.png",
   "./assets/festivals/vendee-folk-jard-sur-mer.jpg",
   "./assets/festivals/vendee-folk-st-avaugourd-des-landes.jpg",

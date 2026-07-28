@@ -1087,59 +1087,69 @@ const festivalEvents = [
     "url": "",
     "line": "Forma parte da xira Vendée Folk 2026."
   },
-  {
+{
     "id": "bruyeres-2026",
     "date": "2026-08-09",
     "dayId": 3,
     "name": "Fête des Bruyères 2026",
     "place": "Beuzec-Cap-Sizun · Kastel-Koz",
-    "poster": "",
+    "poster": "festivals/fete-des-bruyeres-2026.jpg",
     "description": "Festa tradicional do Cap Sizun con desfile, música, danzas, espectáculos, postos, fogos artificiais e fest-noz.",
     "curiosity": "O desfile é un dos momentos máis esperados da xornada, con carrozas decoradas, bagadoù e círculos bretoas que percorren o camiño cara a Kastel-Koz.",
+    "curiosity2": "Cada edición da Fête des Bruyères conta cun cartaz orixinal realizado polo artista Franch Moal. Os carteis póñense á venda durante o festival e o propio artista adoita estar presente. Moitas persoas coleccionan os carteis de todas as edicións.",
+    "programme": [
+      "⛪ 10:00 – Misa con cantos bretóns.",
+      "🎺 11:00 – Alboradas (aubades) na praza do Concello.",
+      "🚶 14:00 – Gran desfile da voda bretoa con bagadoù, círculos celtas e Son d'Aquí.",
+      "👑 15:00 – Actuacións en Kastel-Koz e presentación da Raíña das Bruyères 2026.",
+      "💃 20:30 – Espectáculo Bretagne et Galice, coa participación de Son d'Aquí.",
+      "🎆 22:45 – Gran espectáculo de fogos artificiais musicais (se as condicións o permiten).",
+      "🎻 23:00 – Fest-Noz para pechar a xornada."
+    ],
     "maps": "https://www.google.com/maps/search/?api=1&query=Kastel%20Koz%20Beuzec-Cap-Sizun",
-    "url": "https://www.toutcommenceenfinistere.com/en/all-events/fete-des-bruyeres-2026/",
+    "url": "https://www.fêtedesbruyères.com",
     "line": "Festival tradicional do Cap Sizun."
   },
-  {
+{
     "id": "pontorson-2026",
     "date": "2026-08-11",
     "dayId": 5,
     "name": "Spectacle musical · Groupe Son d'aquí",
     "place": "Salle Polyvalente · Pontorson",
-    "poster": "",
+    "poster": "festivals/pontorson-2026.jpg",
     "description": "Espectáculo musical organizado polo Office Cantonal d'Animation Culturelle nunha localidade situada á entrada do Mont-Saint-Michel.",
     "curiosity": "Pontorson foi historicamente un importante lugar de paso cara ao Mont-Saint-Michel, o que lle dá un carácter moi ligado ás viaxes e ás peregrinacións.",
     "maps": "https://www.google.com/maps/search/?api=1&query=Salle%20Polyvalente%2045%20Chauss%C3%A9e%20de%20Villech%C3%A9rel%20Pontorson",
-    "url": "https://www.infolocale.fr/associations/organisme-ocac-office-cantonal-d-animation-culturelle-487252/evenement-pontorson-concert-spectacle-musical-groupe-son-d-aqui-groupe-de-galice-8885914",
+    "url": "https://www.infolocale.fr/evenements/evenement-pontorson-concert-spectacle-musical-spectacle-folklorique-groupe-son-d-aqui-galice-2009575584",
     "line": "Evento organizado polo Office Cantonal d'Animation Culturelle (OCAC)."
   },
-  {
+{
     "id": "evron-2026",
     "date": "2026-08-13",
     "dayId": 7,
     "name": "Les Estivales Folkloriques · Prendre l'air",
     "place": "Évron · Mayenne",
     "poster": "festivals/prendre-air-evron.png",
-    "description": "Ciclo estival de Évron dentro da programación Prendre l'air, con pícnics, concertos, espectáculos de rúa e cinema ao aire libre.",
+    "description": "Ciclo estival de Évron dentro da programación Prendre l'air, con picnics, concertos, espectáculos de rúa e cinema ao aire libre. Les Estivales Folkloriques deste ano inclúen actuacións dun grupo da India (11/08), outro de Corea do Sur (12/08) e Son d'Aquí (13/08).",
     "curiosity": "A programación Prendre l'air enche Évron de actividades culturais durante o verán e converte distintos espazos da vila en escenarios abertos.",
     "maps": "https://www.google.com/maps/search/?api=1&query=Salle%20des%20F%C3%AAtes%20Avenue%20des%20Sports%20%C3%89vron",
-    "url": "https://www.evron.fr/mes-loisirs/les-grands-rendez-vous/la-saison-dete/",
+    "url": "https://www.coevrons-tourisme.com/temps-fort/les-estivales-folkloriques-evron/",
     "line": "Integrado na programación estival Prendre l’air."
   },
-  {
+{
     "id": "villedieu-2026",
     "date": "2026-08-14",
     "dayId": 8,
     "name": "Festival de Folklore",
     "place": "Villedieu-les-Poêles · Normandía",
-    "poster": "",
-    "description": "Festival de folclore que reúne agrupacións internacionais de música e danza tradicional nunha vila coñecida polos seus oficios artesáns.",
+    "poster": "festivals/villedieu-les-poeles-2026.jpg",
+    "description": "Festival de folclore que reúne agrupacións internacionais de música e danza tradicional nunha vila coñecida polos seus oficios artesáns. Será na sala de festas durante 2 días e está organizado pola comisión de festas de Villedieu.",
     "curiosity": "Villedieu-les-Poêles é coñecida pola súa tradición no traballo do cobre (dinanderie) e pola fabricación artesanal de campás. Desde a Idade Media, os seus obradoiros mantiveron vivos estes oficios, que seguen sendo un dos sinais de identidade da vila.",
     "maps": "https://www.google.com/maps/search/?api=1&query=Villedieu-les-Po%C3%AAles",
-    "url": "https://www.villedieutourisme.com/evenements/tout-lagenda/festival-de-folklore-villedieu-les-poeles-fr-6555838/",
-    "line": "Festival internacional organizado por Villedieu Tourisme."
+    "url": "https://www.villedieutourisme.com/evenements/tout-lagenda/festival-de-folklore-galice-villedieu-les-poeles-fr-6689221/",
+    "line": "Festival internacional organizado pola comisión de festas de Villedieu."
   },
-  {
+{
     "id": "saint-2026",
     "date": "2026-08-15",
     "dayId": 9,
@@ -1147,10 +1157,10 @@ const festivalEvents = [
     "line": "Forma parte da xira Vendée Folk 2026.",
     "place": "Saint-Avaugourd-des-Landes · Vendée",
     "poster": "festivals/vendee-folk-st-avaugourd-des-landes.jpg",
-    "description": "Festa popular que combina folclore internacional, música, danza tradicional e gastronomía nun ambiente festivo da Vendée.",
+    "description": "Festa popular que combina folclore internacional, música, danza tradicional e gastronomía nun ambiente festivo da Vendée. Reciben máis de <b>5.000 persoas</b> e unha enorme cea de gala con máis de <b>2.000 comensais</b>.<br><br>A festa vén de trasladar estes días a súa localización ao centro da vila por mor das restricións e das medidas de prevención de lumes.",
     "curiosity": "A combinación de folclore internacional e gastronomía fai desta festa un evento singular, cunha celebración popular na que o xabaril (sanglier) ocupa un lugar destacado.",
     "maps": "https://www.google.com/maps/search/?api=1&query=Saint-Avaugourd-des-Landes",
-    "url": "https://www.destination-vendeegrandlittoral.com/sit/agenda/concert-spectacle/soiree-folklore-international-8/"
+    "url": "https://www.facebook.com/fete.dusanglier/"
   }
 ];
 

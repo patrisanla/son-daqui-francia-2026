@@ -227,7 +227,7 @@ function weatherCodeText(code){
 
 function festivalsForDay(dayId){return (typeof festivalEvents!=='undefined'?festivalEvents:[]).filter(f=>f.dayId===dayId)}
 function festivalPosterHTML(f){return f.poster?`<img class="festival-poster" src="assets/${f.poster}" alt="Cartel ${f.name}">`:`<div class="festival-hero">🎪<br>${f.name}</div>`}
-function festivalCardHTML(f){return `<div class="festival-card"><h3>Coñece o festival</h3><h2>${f.name}</h2>${f.line?`<p class="festival-line">${f.line}</p>`:''}${festivalPosterHTML(f)}<p><b>📍 ${f.place}</b></p><p>${f.description}</p>${f.curiosity?`<p><b>💡 Curiosidade:</b> ${f.curiosity}</p>`:''}<div class="notebook-actions">${f.maps?`<a class="detailbtn" target="_blank" href="${f.maps}">Abrir localización</a>`:''}${f.url?`<a class="detailbtn" target="_blank" href="${f.url}">Máis información</a>`:''}</div></div>`}
+function festivalCardHTML(f){const programme=f.programme&&f.programme.length?`<div class="festival-programme"><h4>Resumo do festival</h4>${f.programme.map(item=>`<p>${item}</p>`).join('')}</div>`:'';return `<div class="festival-card"><h3>Coñece o festival</h3><h2>${f.name}</h2>${f.line?`<p class="festival-line">${f.line}</p>`:''}${festivalPosterHTML(f)}<p><b>📍 ${f.place}</b></p><p>${f.description}</p>${f.curiosity?`<p><b>💡 Curiosidade:</b> ${f.curiosity}</p>`:''}${f.curiosity2?`<p><b>💡 Sabías que...?</b> ${f.curiosity2}</p>`:''}${programme}<div class="notebook-actions">${f.maps?`<a class="detailbtn" target="_blank" rel="noopener" href="${f.maps}">Abrir localización</a>`:''}${f.url?`<a class="detailbtn" target="_blank" rel="noopener" href="${f.url}">Web oficial</a>`:''}</div></div>`}
 function festivalTodayHTML(d){const fs=festivalsForDay(d.id);return fs.length?`<div class="card">${fs.map(f=>festivalCardHTML(f)).join('')}</div>`:''}
 function festivalsSectionHTML(){const fs=(typeof festivalEvents!=='undefined'?festivalEvents:[]);return `<h2>🎪 Coñece os festivais</h2>`+(fs.length?fs.map(f=>festivalCardHTML(f)).join(''):`<div class="official-pending"><h3>Pendente</h3><p>Iremos engadindo aquí cada cartel ou información de festival.</p></div>`)}
 
@@ -803,6 +803,7 @@ function aboutHTML(){
  return `<div class="card about-card">
   <img src="assets/son-daqui.jpg" alt="Son d'aquí">
   <h3>Son d'aquí - Francia 2026</h3>
+  <p><b>Versión 1.5</b></p>
   <p>App pensada para axudar durante a viaxe. Inclúe itinerario, ruta, lugares, festivais, documentos, meteoroloxía, aloxamentos e cadernos persoais para cada actuación.</p>
   <p>Que queredes que vos diga... a cabeza non para.</p>
  </div>`;

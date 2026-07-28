@@ -1748,3 +1748,6 @@ main{
 /* Aviso meteorolóxico do eclipse */
 .eclipse-alert{margin-top:16px;padding:15px 16px;border:2px solid rgba(123,82,166,.28);border-radius:16px;background:linear-gradient(135deg,rgba(244,238,255,.96),rgba(255,247,217,.96));box-shadow:0 6px 18px rgba(58,38,76,.08)}
 .eclipse-alert h3{margin:0 0 8px}.eclipse-alert p{margin:7px 0;line-height:1.45}
+
+/* v1.5: información ampliada dos festivais */
+.festival-programme{margin:14px 0;padding:14px;background:#fff;border:1px solid var(--line);border-radius:18px}.festival-programme h4{margin:0 0 10px;color:var(--blue);font-size:1.05rem}.festival-programme p{margin:7px 0!important}.festival-poster{width:100%;height:auto;max-height:none!important;object-fit:contain!important;background:#fff}
